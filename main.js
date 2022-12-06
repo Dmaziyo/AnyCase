@@ -2,13 +2,15 @@ const { app, BrowserWindow, ipcMain, Tray, Menu } = require('electron')
 const path = require('path')
 const { registerKey, setGlobalShortCuts } = require('./setting')
 
-//
-/**
- * 找一个能存储读取数据的store
- * 开机的时候启动store读取,若无数据,则使用默认值
- * 若有,则设置
- * 在软件的应用中,可以重新设置store,并且能够修改global shortCut
- */
+// 开机自启
+const exeName = path.basename(process.execPath)
+
+app.setLoginItemSettings({
+  openAtLogin: true,
+  openAsHidden: true,
+  path: process.execPath,
+  args: ['--processStart', `"${exeName}"`]
+})
 
 let mainWindow
 function createWindow() {
@@ -31,13 +33,13 @@ function createWindow() {
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
 }
-
+let tray = null
 app.whenReady().then(() => {
   createWindow()
   ipcMain.on('set-shortCuts', (event, arg) => {
     setGlobalShortCuts(arg)
   })
-  const tray = new Tray('icon.png')
+  tray = new Tray(path.join(__dirname, 'img/icon.png'))
 
   tray.on('double-click', function () {
     mainWindow.show()
@@ -54,6 +56,25 @@ app.whenReady().then(() => {
       label: '退出',
       click: function () {
         app.quit()
+      }
+    },
+    {
+      type: 'checkbox',
+      label: '开机启动',
+      checked: app.getLoginItemSettings().openAtLogin,
+      click: function () {
+        if (!app.isPackaged) {
+          app.setLoginItemSettings({
+            openAtLogin: !app.getLoginItemSettings().openAtLogin,
+            path: process.execPath
+          })
+        } else {
+          app.setLoginItemSettings({
+            openAtLogin: !app.getLoginItemSettings().openAtLogin
+          })
+        }
+        console.log(app.getLoginItemSettings().openAtLogin)
+        console.log(!app.isPackaged)
       }
     }
   ]

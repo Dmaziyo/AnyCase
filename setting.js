@@ -8,6 +8,7 @@ const {
   camel2Kebab
 } = require('./utils')
 const store = new Store()
+
 const DEFAULT_SHORTCUTS = {
   upperCase: 'Control+U',
   lowerCase: 'Control+L',
