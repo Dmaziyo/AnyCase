@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"
+    />
+    <link href="./styles.css" rel="stylesheet" />
+    <title>Hello World!</title>
+    <style>
+      body {
+        background-color: #1d1d1d;
+        color: #fff;
+      }
+      #header {
+        font-size: 25px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .setting-form {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .btn-container {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .btn {
+        cursor: pointer;
+        color: #fff;
+        border-radius: 5px;
+        padding: 10px;
+        background-color: #1d1d1d;
+        border-color: #e2e2e2;
+      }
+      .ipt {
+        min-width: 0;
+        color: white;
+        background-color: #1e1c22;
+        border: 1px solid white;
+        outline: none;
+        ime-mode: disabled;
+        width: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="header">AnyCase</header>
+    <div class="container">
+      <div class="setting-form">
+        <span>UpperCase</span> <input class="ipt" type="text" id="upper" />
+      </div>
+      <div class="setting-form">
+        <span>LowerCase</span>
+        <input class="ipt" type="text" id="lower" />
+      </div>
+      <div class="setting-form">
+        <span style="font-size: 12px">snake | kebab->camelCase</span>
+        <input class="ipt" type="text" id="snake2camel" />
+      </div>
+      <div class="setting-form">
+        <span style="font-size: 13px">CamelCase -> snake-case</span>
+        <input class="ipt" type="text" id="camel2snake" />
+      </div>
+      <div class="setting-form">
+        <span style="font-size: 13px">CamelCase -> kebab-case</span>
+        <input class="ipt" type="text" id="camel2kebab" />
+      </div>
+
+      <div class="btn-container">
+        <button id="save" class="btn">SAVE</button>
+        <button id="reset" class="btn">RESET</button>
+      </div>
+    </div>
+    <script src="./renderer.js"></script>
+  </body>
+</html>
